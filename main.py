@@ -52,11 +52,11 @@ class Example(QMainWindow, Ui_MainWindow):
             self.update()
 
     def draw(self):
-        self.qp.setPen(QPen(Qt.green, 8, Qt.SolidLine))
+        self.qp.setPen(QPen(Qt.yellow, 8, Qt.SolidLine))
         self.qp.drawEllipse(100, 100, 100, 100)
         self.qp.setPen(QPen(Qt.yellow, 8, Qt.SolidLine))
-        self.qp.drawEllipse(200, 200, 100, 100)
-        self.qp.setPen(QPen(Qt.red, 8, Qt.SolidLine))
+        self.qp.drawEllipse(300, 300, 400, 400)
+        self.qp.setPen(QPen(Qt.yellow, 8, Qt.SolidLine))
         self.qp.drawEllipse(100, 200, 100, 100)
 
 
