@@ -1,66 +1,43 @@
-from PyQt5.QtWidgets import QApplication, QMainWindow
-from PyQt5.QtGui import QPainter
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QPen
 import sys
-from PyQt5 import QtCore, QtGui, QtWidgets
+from random import randint
+
+from PyQt5.QtWidgets import QMainWindow, QApplication
+from PyQt5.QtGui import QPainter, QColor
+from ui import Ui_MainWindow
 
 
-class Ui_MainWindow(object):
-    def setupUi(self, MainWindow):
-        MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(500, 500)
-        self.centralwidget = QtWidgets.QWidget(MainWindow)
-        self.centralwidget.setObjectName("centralwidget")
-        self.pushButton = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton.setGeometry(QtCore.QRect(210, 200, 75, 23))
-        self.pushButton.setObjectName("pushButton")
-        MainWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 500, 26))
-        self.menubar.setObjectName("menubar")
-        MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
-        self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
-
-        self.retranslateUi(MainWindow)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
-
-    def retranslateUi(self, MainWindow):
-        _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.pushButton.setText(_translate("MainWindow", "PushButton"))
-
-
-class Example(QMainWindow, Ui_MainWindow):
+class MainWindow(QMainWindow, Ui_MainWindow):
+    #pass
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-        self.pushButton.clicked.connect(self.run)
-        self.ok = False
+        pass
+        self.do_paint = False
+        self.btn.clicked.connect(self.paint)
 
-    def run(self):
-        self.ok = True
+    def paint(self):
+        self.do_paint = True
+        self.repaint()
 
     def paintEvent(self, event):
-        if self.ok:
-            self.qp = QPainter(self)
-            self.qp.begin(self)
-            self.draw()
-            self.qp.end()
-            self.update()
+        if self.do_paint:
+            qp = QPainter()
+            qp.begin(self)
+            self.draw_circle(qp)
+            qp.end()
 
-    def draw(self):
-        self.qp.setPen(QPen(Qt.yellow, 8, Qt.SolidLine))
-        self.qp.drawEllipse(100, 100, 100, 100)
-        self.qp.setPen(QPen(Qt.yellow, 8, Qt.SolidLine))
-        self.qp.drawEllipse(300, 300, 400, 400)
-        self.qp.setPen(QPen(Qt.yellow, 8, Qt.SolidLine))
-        self.qp.drawEllipse(100, 200, 100, 100)
+    def draw_circle(self, qp):
+        x = randint(5, self.width() - 5)
+        y = randint(5, self.height() - 5)
+        pass
+        r = min([randint(5, min(x, self.width() - x)),
+                 randint(5, min(y, self.height() - y))])
+        qp.setBrush(QColor(randint(0, 255), randint(0, 255), randint(0, 255)))
+        qp.drawEllipse(x - r, y - r, r * 2, r * 2)
 
 
-app = QApplication(sys.argv)
-ex = Example()
-ex.show()
-app.exit(app.exec())
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    main = MainWindow()
+    main.show()
+    sys.exit(app.exec())
